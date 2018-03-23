@@ -2,32 +2,34 @@
   "name": "sieben-client",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.ts",
   "scripts": {
-    "tsc": "tsc",
-    "tsc:init": "tsc --init",
-    "tsc:watch": "tsc -w",
-    "dev:build": "webpack",
-    "dev:run": "npm run dev:build && webpack-serve --port=8123 --open",
-    "prod:build": "webpack --config=webpack.prod.config.js"
+    "lint": "tslint src/**/*.ts",
+    "build": "rimraf ./dist && webpack --config webpack.prod.config.js -p --progress",
+    "start": "webpack-dev-server --config webpack.dev.config.js -d --inline --hot --progress --no-info --port 8123 --open"
   },
-  "keywords": [],
+  "files": [
+    "README.md",
+    "dist/",
+    "assets/"
+  ],
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.32",
-    "@babel/core": "^7.0.0-beta.32",
-    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.32",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.32",
-    "@babel/preset-env": "^7.0.0-beta.32",
-    "@babel/preset-typescript": "^7.0.0-beta.32",
-    "babel-loader": "^8.0.0-beta.0",
-    "raw-loader": "^0.5.1",
-    "typescript": "^2.7.2",
-    "uglifyjs-webpack-plugin": "^1.2.4",
-    "webpack": "^4.1.1",
-    "webpack-cli": "^2.0.12",
-    "webpack-serve": "^0.2.0"
+    "copy-webpack-plugin": "^3.0.1",
+    "expose-loader": "^0.7.1",
+    "html-webpack-plugin": "^2.29.0",
+    "rimraf": "^2.5.4",
+    "ts-loader": "^0.8.2",
+    "tslint": "^5.8.0",
+    "tslint-loader": "^3.5.3",
+    "tslint-webpack-plugin": "^1.0.0",
+    "typescript": "^2.6.2",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7",
+    "webpack-obfuscator": "^0.13.0",
+    "webpack-uglify-js-plugin": "^1.1.9"
   },
   "dependencies": {
-    "phaser": "^3.2.1"
+    "@types/howler": "^2.0.5",
+    "howler": "^2.0.7",
+    "phaser-ce": "^2.9.4"
   }
 }
