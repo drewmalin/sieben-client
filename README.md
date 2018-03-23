@@ -5,17 +5,17 @@
 $ npm install
 ```
 
-## Build (Dev)
+## Run (Dev)
 ```
-$ npm run dev:build
+$ npm run start
+```
+
+## Lint
+```
+$ npm run lint
 ```
 
 ## Build (Prod)
 ```
-$ npm run prod:build
-```
-
-## Run (Dev)
-```
-$ npm run dev:run
+$ npm run build
 ```
