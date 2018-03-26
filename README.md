@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/drewmalin/sieben-client.svg?branch=master)](https://travis-ci.org/drewmalin/sieben-client)
+
 # sieben-client
 
 ## Install Dependencies
