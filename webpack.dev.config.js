@@ -9,6 +9,7 @@ const phaser = path.join(phaserModule, 'build/custom/phaser-arcade-physics.js');
 const pixi = path.join(phaserModule, 'build/custom/pixi.js');
 const p2 = path.join(phaserModule, 'build/custom/p2.js');
 const howler = path.join(__dirname, '/node_modules/howler/dist/howler.min.js');
+
 const vendorPackages = /phaser-ce|phaser-split|howler|pixi|p2/;
 
 module.exports = {

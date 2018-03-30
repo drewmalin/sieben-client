@@ -1,4 +1,7 @@
 export class Config {
-    static width: number = 500;
-    static height: number = 500;
+
+    static WINDOW_WIDTH: number = 500;
+    static WINDOW_HEIGHT: number = 500;
+
+    static SERVER_ADDR: string = 'localhost:9123';
 }
