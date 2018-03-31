@@ -6,6 +6,8 @@ import { WebSocketClient } from '../network/websocket_client';
 
 export class Game extends Phaser.State {
 
+    private static readonly MESSAGE_SWITCH: string = 'switch it';
+
     private client: WebSocketClient;
     private hexTile: Phaser.Sprite;
 
@@ -22,23 +24,23 @@ export class Game extends Phaser.State {
 
         this.spaceKey.onDown.add(() => {
             this.spaceHit = !this.spaceHit;
-            this.client.sendMessage('switch it');
+            this.client.sendMessage(Game.MESSAGE_SWITCH);
         }, this);
 
         this.client.onConnectionOpen((event: Event) => {
-            console.log('websocket connection open' + event);
+            console.log('connection to server opened, ' + event);
         });
 
-        this.client.onConnectionClose(() => {
-            console.log('websocket connection closed');
+        this.client.onConnectionClose((event: CloseEvent) => {
+            console.log('connection to server closed, ' + event);
         });
 
-        this.client.onError((event: ErrorEvent) => {
-            console.error(event.error);
+        this.client.onError((event: Event) => {
+            console.error('connection error: ', event);
         });
 
         this.client.onMessage((message: string, event: MessageEvent) => {
-            if (message.indexOf('switch it') >= 0) {
+            if (message.indexOf(Game.MESSAGE_SWITCH) >= 0) {
                 this.spaceHit = !this.spaceHit;
             }
             console.log('Received: ' + event);

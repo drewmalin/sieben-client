@@ -1,18 +1,7 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "declaration": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "lib": [
-      "dom",
-      "es2015",
-      "es2016"
-    ],
-    "module": "es2015",
-    "target": "es5",
-    "moduleResolution": "node",
-    "sourceMap": false,
+    "module": "commonjs",
+    "target": "es6",
     "typeRoots": [
       "node_modules/@types",
       "node_modules/phaser-ce/typescript/phaser.d.ts",
@@ -22,7 +11,14 @@
     "types": [
       "node"
     ],
-    "outDir": "dist"
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "sourceMap": false,
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
   },
   "include": [
     "src/**/*.ts"

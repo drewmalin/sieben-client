@@ -1,7 +1,5 @@
 import { Config } from '../config';
 
-import * as ws from 'websocket';
-
 export class WebSocketClient {
 
     private static readonly EVENT_OPEN: string = 'open';
@@ -20,14 +18,16 @@ export class WebSocketClient {
     }
 
     public onConnectionOpen(callback: (event: Event) => void): void {
-        this.onEvent(WebSocketClient.EVENT_OPEN, callback);
-    }
-
-    public onConnectionClose(callback: () => void): void {
-        this.websocket.addEventListener(WebSocketClient.EVENT_CLOSE, () => {
-            callback();
+        this.websocket.addEventListener(WebSocketClient.EVENT_OPEN, (event: Event) => {
+            callback(event);
         });
     }
+    public onConnectionClose(callback: (event: CloseEvent) => void): void {
+        this.websocket.addEventListener(WebSocketClient.EVENT_CLOSE, (event: CloseEvent) => {
+            callback(event);
+        });
+    }
+
     public onMessage(callback: (message: string, event: MessageEvent) => void): void {
         this.websocket.addEventListener(WebSocketClient.EVENT_MESSAGE, (event: MessageEvent) => {
             let message = event.data as string;
@@ -35,8 +35,11 @@ export class WebSocketClient {
         });
     }
 
-    public onError(callback: (event: ErrorEvent) => void): void {
+    public onError(callback: (event: Event) => void): void {
         this.onEvent(WebSocketClient.EVENT_ERROR, callback);
+        this.websocket.addEventListener(WebSocketClient.EVENT_ERROR, (event: Event) => {
+            callback(event);
+        });
     }
 
     public onEvent(event: any, callback: (event: any) => void): void {
