@@ -6,6 +6,8 @@ export class Preload extends Phaser.State {
 
     public preload(): void {
         this.game.load.image('hextile', 'assets/sprites/tile.png');
+        this.game.load.image('cube', 'assets/sprites/cube.png');
+
         this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
     }
 
