@@ -3,6 +3,10 @@ import Phaser from 'phaser-ce';
 import { Config } from '../config';
 import { HexTile } from '../prefabs/hextile';
 import { WebSocketClient } from '../network/websocket_client';
+import { Hexgrid } from '../hexagons/hexGrid';
+import { GridShape } from '../hexagons/hexGrid';
+import { Hex } from '../hexagons/hexagons';
+import { Point } from '../hexagons/hexagons';
 
 export class Game extends Phaser.State {
 
@@ -10,6 +14,8 @@ export class Game extends Phaser.State {
 
     private client: WebSocketClient;
     private hexTile: Phaser.Sprite;
+    private hexgrid: Hexgrid;
+    private graphics: Phaser.Graphics;
 
     private spaceKey: Phaser.Key;
     private spaceHit: boolean;
@@ -44,6 +50,18 @@ export class Game extends Phaser.State {
                 this.spaceHit = !this.spaceHit;
             }
             console.log('Received: ' + event);
+        });
+
+        this.graphics = this.game.add.graphics(this.game.world.centerX, this.game.world.centerY);
+        this.graphics.lineStyle(3, 0x999999, 0.5);
+        this.hexgrid = new Hexgrid(6, GridShape.HEXAGON, 12, 12);
+        Array.from(this.hexgrid.map.values()).forEach(hex => {
+            let corners: Point[] = this.hexgrid.layout.polygonCorners(hex);
+            this.graphics.moveTo(corners[0].x, corners[0].y);
+            for (let i = 1; i < 6; i++) {
+                this.graphics.lineTo(corners[i].x, corners[i].y);
+            }
+            this.graphics.lineTo(corners[0].x, corners[0].y);
         });
     }
 
