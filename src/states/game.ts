@@ -1,22 +1,24 @@
 import Phaser from 'phaser-ce';
 
 import { Config } from '../config';
-import { HexTile } from '../prefabs/hextile';
-import { Cube } from '../prefabs/cube';
+import { HexTileSprite } from '../prefabs/hextilesprite';
 import { WebSocketClient } from '../network/websocket_client';
+import { HexMap } from '../map/hexmap';
 
 export class Game extends Phaser.State {
 
     private static readonly MESSAGE_SWITCH: string = 'switch it';
 
     private client: WebSocketClient;
-
-    private scene: Phaser.RenderTexture;
-    private hexTile: HexTile;
-    private cube: Cube;
+    private map: HexMap;
+    private selectedPoint: Phaser.Point;
 
     private spaceKey: Phaser.Key;
     private spaceHit: boolean;
+
+    public preload(): void {
+        this.game.time.advancedTiming = true;
+    }
 
     public create(): void {
         this.initSprites();
@@ -25,16 +27,17 @@ export class Game extends Phaser.State {
     }
 
     private initSprites(): void {
-        this.scene = this.game.add.renderTexture(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
-        this.game.add.sprite(0, 0, this.scene);
-
-        this.hexTile = new HexTile(this.game);
-        this.cube = new Cube(this.game);
+        let numHexesWide = 12; // temporary -- should pull from level-specific config
+        let numHexesTall = 17; // temporary -- should pull from level-specific config
+        this.map = new HexMap(numHexesWide, numHexesTall, this.game);
     }
 
     private initInput(): void {
-        this.spaceKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.input.activePointer.leftButton.onDown.add(() => {
+            this.selectedPoint = this.input.activePointer.position;
+        });
 
+        this.spaceKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.spaceKey.onDown.add(() => {
             this.spaceHit = !this.spaceHit;
             this.client.sendMessage(Game.MESSAGE_SWITCH);
@@ -64,34 +67,15 @@ export class Game extends Phaser.State {
         });
     }
 
+    public render(): void {
+        this.game.debug.text(this.game.time.fps.toString() || '--', 2, 14, '#a7aebe');
+    }
+
     public update(): void {
-        if (this.spaceHit === true) {
-            // this.hexTile.tint = 0x86bfda;
+        if (this.selectedPoint) {
+            this.map.selectTileByPointerPosition(this.selectedPoint);
+            this.selectedPoint = undefined;
         }
-        else {
-            // this.hexTile.tint = 0xffffff;
-        }
-        (this.scene as any).clear();
-        this.renderFloor(25, 36, 12, 17);
-        this.renderCubes();
-    }
-
-    private renderFloor(sceneOriginX: number, sceneOriginY: number, sceneWidth: number, sceneHeight: number): void {
-        for (let j = 0; j < sceneHeight; j++) {
-            for (let i = 0; i < sceneWidth; i++) {
-
-                // shift x placement by (width / 2) on every other row
-                let shift = j % 2 === 0 ? this.hexTile.getWidth() / 2 : 0;
-
-                let deltaX = (i * this.hexTile.getWidth()) + shift;
-                let deltaY = (j * this.hexTile.getHeight());
-
-                this.scene.renderXY(this.hexTile.getSprite(), sceneOriginX + deltaX, sceneOriginY + deltaY, false);
-            }
-        }
-    }
-
-    private renderCubes(): void {
-        this.scene.renderXY(this.cube.getSprite(), this.game.world.centerX, this.game.world.centerY, false);
+        this.map.hoverTileByPointerPosition(this.selectedPoint);
     }
 }
