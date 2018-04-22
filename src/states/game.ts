@@ -21,8 +21,8 @@ export class Game extends Phaser.State {
     private spaceHit: boolean;
 
     public create(): void {
-        this.hexTile = new HexTile(this.game, this.game.world.centerX, this.game.world.centerY);
-        this.game.add.existing(this.hexTile);
+        //this.hexTile = new HexTile(this.game, this.game.world.centerX, this.game.world.centerY);
+        //this.game.add.existing(this.hexTile);
 
         this.client = new WebSocketClient('ws://' + Config.SERVER_ADDR);
 
@@ -54,7 +54,8 @@ export class Game extends Phaser.State {
 
         this.graphics = this.game.add.graphics(this.game.world.centerX, this.game.world.centerY);
         this.graphics.lineStyle(3, 0x999999, 0.5);
-        this.hexgrid = new Hexgrid(6, GridShape.HEXAGON, 12, 12);
+        this.hexgrid = new Hexgrid(6, GridShape.HEXAGON, 20, 20);
+        /*
         Array.from(this.hexgrid.map.values()).forEach(hex => {
             let corners: Point[] = this.hexgrid.layout.polygonCorners(hex);
             this.graphics.moveTo(corners[0].x, corners[0].y);
@@ -62,15 +63,20 @@ export class Game extends Phaser.State {
                 this.graphics.lineTo(corners[i].x, corners[i].y);
             }
             this.graphics.lineTo(corners[0].x, corners[0].y);
-        });
+        });*/
+        this.hexgrid.drawlines(this.graphics);
+        
+        this.hexgrid.drawPoints(this.graphics);
     }
 
     public update(): void {
+        /*
         if (this.spaceHit === true) {
             this.hexTile.tint = 0x86bfda;
         }
         else {
             this.hexTile.tint = 0xffffff;
         }
+        */
     }
 }
