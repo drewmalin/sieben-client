@@ -15,15 +15,7 @@ export class Hexgrid {
             // TODO
         }
         else if (shape === GridShape.HEXAGON) {
-            let pointCount = Hexgrid.countHexGridPoints(size, shape);
             this.points = [];
-            for (let q: number = -size; q <= size; q++) {
-                let r1: number = Math.max(-size, -q - size);
-                let r2: number = Math.min(size, -q + size);
-                for (let r: number = r1; r <= r2; r++) {
-                    this.map.set([q, r].join(), new Hex(q, r, -q - r));
-                }
-            }
             this.placePoints(size, shape);
             this.populatePointChains();
         }
@@ -42,18 +34,6 @@ export class Hexgrid {
     innies: number[];
     pointChains: number[][];
     lineSegments: number[];
-
-    static countHexGridPoints(size: number, shape: GridShape): number {
-        if (shape === GridShape.HEXAGON) {
-            if (size <= 1) {
-                return 6;
-            }
-            else {
-                return ((2 * size) - 1) * 6 + Hexgrid.countHexGridPoints(size - 1, shape);
-            }
-        }
-        return 0;
-    }
 
     placePoints(size: number, shape: GridShape): void {
         // Remember that positive Y is DOWN.
