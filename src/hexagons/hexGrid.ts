@@ -136,7 +136,7 @@ export class Hexgrid {
                 for (zigzag = r; zigzag >= 0; zigzag--) { // southeast grid side
                     cursor = new Point(cursor.x + halfWidth, cursor.y - halfRoot3 * this.hexHeight);
                     let roundingErrorTolerance = 0.005;
-                    if (Math.abs(cursor.x - firstVertOfLayer.x) > roundingErrorTolerance 
+                    if (Math.abs(cursor.x - firstVertOfLayer.x) > roundingErrorTolerance
                             || Math.abs(cursor.y - firstVertOfLayer.y) > roundingErrorTolerance) {
                         this.points.push(cursor);
                         zigzag === 0 ? this.outies.push(i) : this.innies.push(i);
@@ -183,7 +183,7 @@ export class Hexgrid {
                 graphics.lineTo(this.points[chain[i]].x, this.points[chain[i]].y);
             }
         });
-        // draw spokes 
+        // draw spokes
         for (let i = 0; i < this.innies.length && i < this.outies.length; i++) {
             let in_index = this.innies[i];
             let out_index = this.outies[i];

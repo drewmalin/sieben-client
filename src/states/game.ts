@@ -21,8 +21,8 @@ export class Game extends Phaser.State {
     private spaceHit: boolean;
 
     public create(): void {
-        //this.hexTile = new HexTile(this.game, this.game.world.centerX, this.game.world.centerY);
-        //this.game.add.existing(this.hexTile);
+        // this.hexTile = new HexTile(this.game, this.game.world.centerX, this.game.world.centerY);
+        // this.game.add.existing(this.hexTile);
 
         this.client = new WebSocketClient('ws://' + Config.SERVER_ADDR);
 
@@ -54,7 +54,7 @@ export class Game extends Phaser.State {
 
         this.graphics = this.game.add.graphics(this.game.world.centerX, this.game.world.centerY);
         this.graphics.lineStyle(3, 0x999999, 0.5);
-        this.hexgrid = new Hexgrid(6, GridShape.HEXAGON, 20, 20);
+        this.hexgrid = new Hexgrid(20, GridShape.HEXAGON, 20, 20);
         /*
         Array.from(this.hexgrid.map.values()).forEach(hex => {
             let corners: Point[] = this.hexgrid.layout.polygonCorners(hex);
@@ -65,7 +65,6 @@ export class Game extends Phaser.State {
             this.graphics.lineTo(corners[0].x, corners[0].y);
         });*/
         this.hexgrid.drawlines(this.graphics);
-        
         this.hexgrid.drawPoints(this.graphics);
     }
 
