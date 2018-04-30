@@ -13,7 +13,6 @@ export class StatMod {
     stat: string;
     mod: number;
     turnsRemaining: number;
-    roundsRemaining: number;
     endPhase: TurnPhase;
     activePhases: TurnPhase[];
 }

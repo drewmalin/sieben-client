@@ -1,5 +1,6 @@
 import { Hexgrid, GridShape } from "../hexagons/hexGrid";
 import { Hex } from "../hexagons/hexagons";
+import { BUnit } from "./bUnits/bUnit";
 
 export class BattleMap {
     constructor (public size: number, public shape: GridShape) {
@@ -24,4 +25,6 @@ class Location {
     constructor (public hex: Hex) {
 
     }
+    elevation: number;
+    unit: BUnit;
 }

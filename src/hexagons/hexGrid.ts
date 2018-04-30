@@ -9,7 +9,6 @@ export enum GridShape {SQUARE, HEXAGON, RHOMBUS}
 
 export class Hexgrid {
     constructor (public size: number, public shape: GridShape, public hexWidth: number, public hexHeight: number) {
-        this.map = new Map<string, Hex>();
         this.layout = new Layout(Layout.flat, new Point(hexWidth, hexHeight), new Point(0, 0));
         if (shape === GridShape.SQUARE) {
             // TODO
@@ -27,7 +26,6 @@ export class Hexgrid {
         }
     }
 
-    map: Map<string, Hex>;
     layout: Layout;
     points: Point[];
     outies: number[];
